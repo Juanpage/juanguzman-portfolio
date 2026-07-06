@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juan Guzmán — Desarrollador &amp; Estudiante de Derecho</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F1E7;
+    --paper-line:#E2D6BC;
+    --ink:#1C1B17;
+    --ink-soft:#55524a;
+    --navy:#0B1F3A;
+    --navy-2:#123058;
+    --teal:#2FBBAA;
+    --gold:#B8935A;
+    --red:#B5533E;
+    --max:1120px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.55;
+  }
+  h1,h2,h3{font-family:'Fraunces',serif; margin:0; letter-spacing:-0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 28px;}
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(246,241,231,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--paper-line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{font-family:'Fraunces',serif; font-weight:700; font-size:19px;}
+  .brand span{color:var(--teal);}
+  .navlinks{display:flex; gap:26px; font-size:14px;}
+  .navlinks a{text-decoration:none; color:var(--ink-soft); border-bottom:1px solid transparent; padding-bottom:2px; transition:.2s;}
+  .navlinks a:hover{color:var(--ink); border-color:var(--gold);}
+  @media (max-width:720px){ .navlinks{display:none;} }
+
+  /* HERO - signature split */
+  .hero{display:grid; grid-template-columns:1.1fr 1fr; min-height:520px;}
+  @media (max-width:860px){ .hero{grid-template-columns:1fr;} }
+  .hero-code{
+    background:var(--navy);
+    color:#cfe3ff;
+    padding:64px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-code::before{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(47,187,170,0.10), transparent 40%);
+  }
+  .hero-code .eyebrow{color:var(--teal); font-size:13px; letter-spacing:.06em;}
+  .code-block{
+    margin-top:26px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    line-height:1.75;
+    color:#a9c4e8;
+    white-space:pre;
+    overflow-x:auto;
+  }
+  .code-block .kw{color:#7fd8c9;}
+  .code-block .str{color:#e2c08d;}
+  .code-block .com{color:#5c7699;}
+  .hero-law{
+    background:var(--paper);
+    padding:64px 40px;
+    display:flex; flex-direction:column; justify-content:center;
+    border-left:1px solid var(--paper-line);
+  }
+  .hero-law .eyebrow{color:var(--gold); font-size:13px; letter-spacing:.06em;}
+  .hero-name{font-size:clamp(34px,5vw,52px); margin-top:14px; line-height:1.05;}
+  .hero-role{margin-top:14px; font-size:16px; color:var(--ink-soft); max-width:46ch;}
+  .hero-tags{margin-top:26px; display:flex; flex-wrap:wrap; gap:10px;}
+  .tag{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+    border:1px solid var(--paper-line); padding:5px 10px; border-radius:3px;
+    color:var(--ink-soft);
+  }
+
+  /* SECTION SCAFFOLD */
+  section{padding:80px 0;}
+  .sec-head{display:flex; align-items:baseline; gap:16px; margin-bottom:44px; border-bottom:1px solid var(--paper-line); padding-bottom:18px;}
+  .sec-head .cite{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--gold); white-space:nowrap;}
+  .sec-head.code .cite{color:var(--teal);}
+  .sec-head h2{font-size:30px;}
+  .sec-sub{color:var(--ink-soft); font-size:15px; margin-top:-30px; margin-bottom:40px; max-width:60ch;}
+
+  /* TIMELINE */
+  .timeline{border-left:2px solid var(--paper-line); padding-left:28px; display:flex; flex-direction:column; gap:34px;}
+  .tl-item{position:relative;}
+  .tl-item::before{
+    content:""; position:absolute; left:-33px; top:4px; width:10px; height:10px; border-radius:50%;
+    background:var(--navy); border:2px solid var(--paper);
+  }
+  .tl-item .period{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--gold);}
+  .tl-item h3{font-size:19px; margin-top:4px;}
+  .tl-item .org{color:var(--ink-soft); font-size:14px; font-style:italic; margin-top:2px;}
+  .tl-item p{margin:8px 0 0; font-size:14.5px; color:var(--ink-soft); max-width:64ch;}
+
+  /* PROJECT GRID */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:22px;}
+  .card{
+    background:#fff; border:1px solid var(--paper-line); border-radius:6px;
+    padding:26px; display:flex; flex-direction:column; gap:12px;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .card:hover{transform:translateY(-3px); box-shadow:0 10px 24px rgba(11,31,58,0.08);}
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .card h3{font-size:18.5px; line-height:1.25;}
+  .badge{
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; padding:3px 8px; border-radius:20px;
+    white-space:nowrap; height:fit-content;
+  }
+  .badge.prod{background:#e6f5f2; color:#1c7d6d;}
+  .badge.dev{background:#fbeee7; color:var(--red);}
+  .badge.done{background:#eef1f6; color:var(--navy-2);}
+  .badge.design{background:#f5efe0; color:var(--gold);}
+  .card .meta{font-size:12.5px; color:var(--ink-soft); font-family:'IBM Plex Mono',monospace;}
+  .card p{font-size:14px; color:var(--ink-soft); margin:0;}
+  .stack{display:flex; flex-wrap:wrap; gap:6px; margin-top:auto; padding-top:8px;}
+  .stack span{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--navy-2); background:#eef2f8; padding:3px 7px; border-radius:3px;}
+
+  /* LEGAL DOCS LIST */
+  .doc-list{display:flex; flex-direction:column; gap:0;}
+  .doc{
+    display:grid; grid-template-columns:110px 1fr; gap:22px;
+    padding:22px 0; border-bottom:1px solid var(--paper-line);
+  }
+  .doc:last-child{border-bottom:none;}
+  .doc .art{font-family:'IBM Plex Mono',monospace; color:var(--gold); font-size:13px;}
+  .doc h3{font-size:17px;}
+  .doc p{margin:6px 0 0; font-size:14px; color:var(--ink-soft);}
+  @media (max-width:600px){ .doc{grid-template-columns:1fr;} }
+
+  /* ACADEMIC */
+  .acad-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+  @media (max-width:720px){ .acad-grid{grid-template-columns:1fr;} }
+  .acad-card{background:var(--navy); color:#dce8f7; padding:26px; border-radius:6px;}
+  .acad-card .art{font-family:'IBM Plex Mono',monospace; color:var(--teal); font-size:12.5px;}
+  .acad-card h3{font-size:18px; color:#fff; margin-top:8px;}
+  .acad-card p{font-size:13.5px; color:#a9c0dc; margin-top:8px;}
+  .status-pill{
+    display:inline-block; margin-top:14px; font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+    border:1px solid rgba(255,255,255,0.25); padding:4px 10px; border-radius:20px; color:var(--teal);
+  }
+
+  footer{
+    background:var(--navy); color:#a9c0dc; padding:56px 0 34px;
+    margin-top:40px;
+  }
+  footer h2{color:#fff; font-size:24px;}
+  footer p{color:#9db3d1; font-size:14px;}
+  .contact-row{display:flex; flex-wrap:wrap; gap:26px; margin-top:22px; font-size:14px;}
+  .contact-row a{text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.25);}
+  .contact-row a:hover{border-color:var(--teal); color:var(--teal);}
+  .fine{margin-top:44px; font-size:12px; color:#5f7594;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">Juan Guzmán<span>.</span></div>
+    <div class="navlinks">
+      <a href="#trayectoria">Trayectoria</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#legal">Documentos Legales</a>
+      <a href="#academico">Académico</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-code">
+    <div class="eyebrow mono">// desarrollo</div>
+    <div class="code-block"><span class="com">// calipso-dive · sistema de digitalización</span>
+<span class="kw">const</span> pasajero = {
+  cedula: validarCedula(input),
+  buceo: { experiencia, seguro, equipo },
+  waiver: <span class="str">"pendiente"</span>
+};
+
+<span class="com">// cifrado de campos sensibles</span>
+encrypt(pasajero, <span class="str">"AES-256-GCM"</span>);
+</div>
+  </div>
+  <div class="hero-law">
+    <div class="eyebrow mono">Art. 1 — perfil profesional</div>
+    <h1 class="hero-name">Escribo código.<br>Interpreto códigos.</h1>
+    <p class="hero-role">Tecnólogo en Desarrollo de Aplicaciones Web a cargo de TICs en Visiting Galapagos / Calipso, fundador de Hexnex, y actualmente cursando 4to semestre de Derecho en la UIDE. Construyo sistemas para el turismo de buceo en Galápagos y documentos que los sostienen legalmente.</p>
+    <div class="hero-tags">
+      <span class="tag">Node.js / Express</span>
+      <span class="tag">PostgreSQL</span>
+      <span class="tag">Docker</span>
+      <span class="tag">Derecho Penal · UIDE</span>
+      <span class="tag">Quito, Ecuador</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- TRAYECTORIA -->
+  <section id="trayectoria">
+    <div class="sec-head">
+      <span class="cite">Art. 2</span>
+      <h2>Trayectoria</h2>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="period">Sept. 2025 — Actualidad</div>
+        <h3>Analista de TICs / Desarrollador de Software</h3>
+        <div class="org">Visiting Galapagos / Calipso</div>
+        <p>Infraestructura tecnológica, desarrollo de sistemas internos y plataforma de reservas para la operación de los cruceros Calipso, Letty y Narel.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="period">Abr. 2026 — Actualidad</div>
+        <h3>Fundador / Desarrollador Freelance</h3>
+        <div class="org">Hexnex</div>
+        <p>Desarrollo web y móvil, sistemas a medida, ERP e integraciones con IA para clientes en Ecuador.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="period">Desde 2024 — 4to semestre</div>
+        <h3>Estudiante de Derecho</h3>
+        <div class="org">Universidad Internacional del Ecuador (UIDE)</div>
+        <p>Enfoque en Derecho Penal y análisis doctrinal-práctico.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="period">2024</div>
+        <h3>Analista Provincial de Procesos Electorales Capacitador</h3>
+        <div class="org">Consejo Nacional Electoral (CNE)</div>
+        <p>Capacitación a personal de Fuerzas Armadas y Policía Nacional; entrenamiento a juntas receptoras del voto; coordinación administrativa de procesos electorales.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="period">2023 — 2024</div>
+        <h3>Community Manager</h3>
+        <div class="org">Pueblo Kayambi</div>
+        <p>Planificación de contenidos, edición audiovisual y operación de dron para material multimedia corporativo.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="period">2015 — 2022</div>
+        <h3>Fuerzas Armadas del Ecuador</h3>
+        <div class="org">Operador de Drones → Radio Operador → Planificador de Proyectos</div>
+        <p>Captura y cartografía digital aérea; configuración de cableado estructurado y soporte técnico; diseño y planificación de proyectos tecnológicos, gestión de patentes y procesos de innovación institucional.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROYECTOS -->
+  <section id="proyectos">
+    <div class="sec-head code">
+      <span class="cite">// 03</span>
+      <h2>Proyectos de Desarrollo</h2>
+    </div>
+    <p class="sec-sub">Sistemas construidos para operación turística en Galápagos, salud y proyectos propios.</p>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top"><h3>Calipso Dive — Digitalización de cruceros</h3><span class="badge prod">Producción</span></div>
+        <div class="meta">Visiting Galapagos · 2026</div>
+        <p>Reemplazo del papeleo manual por un sistema completo: 18 tablas en PostgreSQL, cifrado AES-256-GCM para datos sensibles, formulario público bilingüe para pasajeros e integración con Google Drive y correo con reintento automático.</p>
+        <div class="stack"><span>Node.js</span><span>Express</span><span>PostgreSQL</span><span>Docker</span><span>AES-256-GCM</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><h3>TurismoV1 — Plataforma de reservas</h3><span class="badge dev">En desarrollo</span></div>
+        <div class="meta">Visiting Galapagos · 2026</div>
+        <p>Migración de un frontend con datos estáticos a lógica de negocio real, priorizando el módulo de reservas sobre CRM, operaciones, finanzas y portal de huéspedes.</p>
+        <div class="stack"><span>NestJS</span><span>PostgreSQL</span><span>Prisma</span><span>React</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><h3>Auditoría UAT — visitingalapagos.com</h3><span class="badge done">Entregado</span></div>
+        <div class="meta">Visiting Galapagos · 2026</div>
+        <p>Pruebas de aceptación de usuario en tres bloques de contexto controlado. Siete defectos identificados (cuatro críticos), documentados en informe ejecutivo y comunicados al proveedor externo.</p>
+        <div class="stack"><span>QA</span><span>UAT</span><span>Reporting</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><h3>Fundar Galápagos — Sitio bilingüe</h3><span class="badge done">Entregado</span></div>
+        <div class="meta">Fundar Galápagos · 2026</div>
+        <p>Frontend en JavaScript vanilla conectado a un backend Express: estadísticas de impacto en vivo, flujo de donaciones, voluntariado, alianzas y blog dinámico.</p>
+        <div class="stack"><span>JavaScript</span><span>Express API</span><span>HTML/CSS</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><h3>Dental CRM Ecuador</h3><span class="badge done">Entregado</span></div>
+        <div class="meta">Proyecto propio (Hexnex) · 2026</div>
+        <p>CRM odontológico completo bajo la LOPDP: JWT + 2FA, cifrado AES-256-GCM, validación de cédula con dígito verificador, facturación electrónica SRI v2.21 y frontend React sin build step.</p>
+        <div class="stack"><span>Node.js</span><span>React</span><span>PostgreSQL</span><span>Redis</span><span>SRI</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><h3>Narel Yacht — Página standalone</h3><span class="badge done">Entregado</span></div>
+        <div class="meta">Visiting Galapagos · 2026</div>
+        <p>Página independiente para reemplazar la dependencia de Wix: hero, tarjetas de tours, precios, testimonios y reserva vía WhatsApp.</p>
+        <div class="stack"><span>Bootstrap 5</span><span>JavaScript</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><h3>Visiting World &amp; Wanderlust Explorer</h3><span class="badge done">Entregado</span></div>
+        <div class="meta">Proyecto propio · 2025</div>
+        <p>Sitio promocional de viajes con video hero, carrusel y marquee infinito; estudio de arquitectura de un proyecto de referencia para mejoras iterativas.</p>
+        <div class="stack"><span>JavaScript</span><span>Swiper.js</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><h3>Ángeles en Acción — Plataforma social</h3><span class="badge design">En diseño</span></div>
+        <div class="meta">Cliente · Cayambe, Ecuador · 2026</div>
+        <p>Dirección visual y mockups para una plataforma de acción social comunitaria: sitio público, autenticación y panel de administración.</p>
+        <div class="stack"><span>Diseño UI</span><span>Auth</span><span>Panel Admin</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-top"><h3>Hexnex — Marca de desarrollo freelance</h3><span class="badge prod">Activo</span></div>
+        <div class="meta">Proyecto propio · 2026</div>
+        <p>Fundación de la marca: desarrollo web y móvil, IA/automatización, sistemas a medida, ERP y consultoría IT, con dominio y handles propios.</p>
+        <div class="stack"><span>Freelance</span><span>Consultoría IT</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LEGAL DOCS -->
+  <section id="legal">
+    <div class="sec-head">
+      <span class="cite">Art. 4</span>
+      <h2>Documentos Legales &amp; Compliance</h2>
+    </div>
+    <p class="sec-sub">Donde el desarrollo de software se encuentra con el derecho laboral, comercial y contractual.</p>
+    <div class="doc-list">
+
+      <div class="doc">
+        <div class="art">Art. 4.1</div>
+        <div>
+          <h3>Reglamento Interno de Trabajo 2026</h3>
+          <p>Reconstrucción completa del código laboral interno de Visiting Galapagos: 38 artículos alineados al Código del Trabajo (Arts. 42–64, 172) y a los Acuerdos Ministeriales MDT-2025-102 y MDT-2025-186, con acta de recepción para empleados.</p>
+        </div>
+      </div>
+
+      <div class="doc">
+        <div class="art">Art. 4.2</div>
+        <div>
+          <h3>Contrato IBE — Evaluación de proveedores</h3>
+          <p>Documento contractual de 49 cláusulas para la selección de proveedor del motor de reservas (Internet Booking Engine), cubriendo alcance, penalidades, propiedad intelectual, garantía y cumplimiento PCI-DSS.</p>
+        </div>
+      </div>
+
+      <div class="doc">
+        <div class="art">Art. 4.3</div>
+        <div>
+          <h3>Traducción Release Document v3.1</h3>
+          <p>Traducción al español de la documentación de versión de la plataforma de reservas de Visiting Galapagos.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ACADEMICO -->
+  <section id="academico">
+    <div class="sec-head">
+      <span class="cite">Art. 5</span>
+      <h2>Formación Académica</h2>
+    </div>
+    <div class="acad-grid">
+
+      <div class="acad-card">
+        <div class="art">UIDE</div>
+        <h3>Estudiante de Derecho — 4to semestre</h3>
+        <p>Universidad Internacional del Ecuador. Enfoque en Derecho Penal y análisis doctrinal-práctico.</p>
+        <span class="status-pill">En curso</span>
+      </div>
+
+      <div class="acad-card">
+        <div class="art">Repositorio · COIP</div>
+        <h3>Teoría General del Derecho Penal</h3>
+        <p>Unidades 1–4 organizadas sobre un eje doctrinal y práctico, fundamentadas en el COIP.</p>
+        <span class="status-pill">Completado</span>
+      </div>
+
+      <div class="acad-card">
+        <div class="art">Presentación · 18 diapositivas</div>
+        <h3>Títulos Valores en el Comercio Moderno</h3>
+        <p>Clase demostrativa UIDE sobre letra de cambio, pagaré y cheque, circulación cambiaria y dimensión internacional (Arts. 170–380 Código de Comercio, Arts. 209–276 COMF).</p>
+        <span class="status-pill">Entregado</span>
+      </div>
+
+      <div class="acad-card">
+        <div class="art">Guion Docente</div>
+        <h3>Curso de Operadores de Drones</h3>
+        <p>Guía de enseñanza para el curso de operación de drones (120 horas de formación certificada).</p>
+        <span class="status-pill">Entregado</span>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer id="contacto">
+  <div class="wrap">
+    <h2>Hablemos de tu próximo proyecto</h2>
+    <p>Disponible para desarrollo web, sistemas a medida y consultoría en TI.</p>
+    <div class="contact-row">
+      <a href="tel:+593987770604">0987770604</a>
+      <a href="mailto:juanrgl@outlook.es">juanrgl@outlook.es</a>
+      <a href="#">Quito, Pichincha, Ecuador</a>
+    </div>
+    <div class="fine">© 2026 Juan Guzmán · Hexnex</div>
+  </div>
+</footer>
+
+</body>
+</html>
